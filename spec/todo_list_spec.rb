@@ -16,7 +16,11 @@ describe 'ToDoList' do
   end
 
   it "should create a new task with a rank that is the last" do
-    fail
+    todo_list = ToDoList.new
+    todo_list.add_task "task1"
+    todo_list.add_task "task2"
+    todo_list.get_next_task.rank.should == 1
+    todo_list.get_next_task.rank.should == 2
   end
 
 end

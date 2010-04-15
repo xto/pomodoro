@@ -9,7 +9,7 @@ class ToDoList
 
   def add_task name
     raise InvalidTaskError.new "No name has been provided" if name.empty?
-    @tasks.push Task.new name,@tasks.size
+    @tasks.push Task.new name,@tasks.size+1
   end
 
   def get_next_task
