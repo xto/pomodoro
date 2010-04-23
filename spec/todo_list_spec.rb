@@ -23,4 +23,8 @@ describe 'ToDoList' do
     todo_list.get_next_task.rank.should == 2
   end
 
+  it "should create an entry in a yaml file when a task is added" do
+    fail
+  end
+
 end

@@ -20,6 +20,11 @@ describe 'Task' do
       task1.rank.should == 1
       task2.rank.should == 2
     end
+
+    it "should create a pomodoro by default" do
+      Pomodoro.should_receive(:new).once.with(25, "1 pomodoro task")
+      task1 = Task.new "1 pomodoro task",1
+    end
   end
 
 end
