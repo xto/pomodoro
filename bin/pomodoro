@@ -1,0 +1,56 @@
+#!/usr/bin/env ruby
+
+$:.unshift(File.dirname(__FILE__)+"/../")
+require 'rubygems'
+require 'commander/import'
+#require 'pomodoro'
+program :name, "Pomodoro"
+program :version, "1.0"
+program :description, 'Pomodoro Technique Timer'
+ 
+command :add_task do |c|
+  c.syntax = 'pomodoro add_task "<task name>" [<estimate>]'
+  c.summary = 'Adds a task to the list with the specified estimate'
+  c.description = 'This command will add a task. The estimate argument is option.\n If not specified 1 will be used.'
+  c.example 'Add a task', 'pomodoro add_task "Install Linux"'
+  c.example 'Add a task', 'pomodoro add_task "Write an essay on Open Source Software" '
+  c.action do |args, options|
+    TodoList.new do |todo_list|
+      todo_list.add_task args[0], args[1] 
+    end
+  end
+end
+
+command :extend_task do |c|
+  c.syntax = 'pomodoro extend_task [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Pomodoro::Commands::Extend_task
+  end
+end
+
+command :reschedule_task do |c|
+  c.syntax = 'pomodoro reschedule_task [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Pomodoro::Commands::Reschedule_task
+  end
+end
+
+command :start_next_task do |c|
+  c.syntax = 'pomodoro start_next_task [options]'
+  c.summary = ''
+  c.description = ''
+  c.example 'description', 'command example'
+  c.option '--some-switch', 'Some switch that does something'
+  c.action do |args, options|
+    # Do something or c.when_called Pomodoro::Commands::Start_next_task
+  end
+end
+
