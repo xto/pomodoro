@@ -19,7 +19,13 @@ class ToDoList
   end
 
   def get_next_task
-    @tasks.shift
+    @tasks.first
+  end
+
+  def execute_task
+    task = @tasks.shift
+    task.start
+    task.set_as_done
   end
 
   private

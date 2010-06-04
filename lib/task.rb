@@ -36,6 +36,14 @@ class Task
     @status == "in progress"
   end
 
+  def is_underestimated?
+    @pomodoro_list.size > @estimate
+  end
+
+  def add_pomodoro
+    @pomodoro_list << Pomodoro.new(25,@name)
+  end
+
   def == task
     @name == task.name && @rank == task.rank && @estimate == task.estimate
   end

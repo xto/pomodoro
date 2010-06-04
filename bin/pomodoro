@@ -22,11 +22,9 @@ command :add_task do |c|
 end
 
 command :extend_task do |c|
-  c.syntax = 'pomodoro extend_task [options]'
-  c.summary = ''
-  c.description = ''
-  c.example 'description', 'command example'
-  c.option '--some-switch', 'Some switch that does something'
+  c.syntax = 'pomodoro extend_task'
+  c.summary = 'Adds a pomodoro to the task'
+  c.description = 'This command will add a pomodoro to the task at hand, but it will flag it as underestimated.'
   c.action do |args, options|
     # Do something or c.when_called Pomodoro::Commands::Extend_task
   end

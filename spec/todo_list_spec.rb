@@ -25,6 +25,7 @@ describe 'ToDoList' do
       todo_list.add_task "task1"
       todo_list.add_task "task2"
       todo_list.get_next_task.rank.should == 1
+      todo_list.execute_task
       todo_list.get_next_task.rank.should == 2
     end
 
