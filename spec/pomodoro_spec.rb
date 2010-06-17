@@ -1,6 +1,6 @@
 $:.unshift(File.dirname(__FILE__)+"/../")
 
-require 'lib/pomodoro.rb'
+require 'lib/pomodoro'
 
 describe "Pomodoro" do
 
@@ -21,7 +21,7 @@ describe "Pomodoro" do
     pomodoro = Pomodoro.new 5,"Task name"
     pomodoro.status.should == 'new'
     Thread.new {pomodoro.start}
-    sleep 1
+    Kernel.sleep 1
     pomodoro.status.should == 'in progress'
   end
 
@@ -31,7 +31,8 @@ describe "Pomodoro" do
     pomodoro = Pomodoro.new 1,"Task name"
     pomodoro.status.should == 'new'
     pomodoro.start
-    sleep 1 
+    Kernel.sleep 1 
     pomodoro.status.should == 'finished'
   end
+  
 end

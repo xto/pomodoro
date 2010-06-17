@@ -47,4 +47,14 @@ class Task
   def == task
     @name == task.name && @rank == task.rank && @estimate == task.estimate
   end
+  
+  def start
+    @pomodoro_list.each do |pomodoro| 
+      pomodoro.start
+    end
+  end
+  
+  def set_as_done
+    @status = "done"
+  end
 end

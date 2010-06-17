@@ -2,7 +2,7 @@ require 'task'
 $:.unshift(File.dirname(__FILE__)+"/../")
 
 class ToDoList
-  @tasks
+  attr_reader :tasks
   @filename
 
   def initialize filename="lists/default_list.yml"
@@ -27,7 +27,15 @@ class ToDoList
     task.start
     task.set_as_done
   end
+    
+  def remove_task task_name
+    @tasks.each {|task| @tasks.delete task if task.name == task_name}
+  end
 
+  def find_task_by_name task_name
+    @tasks.each {|task| return task if task.name == task_name}
+  end
+  
   private
 
   def persist_task task

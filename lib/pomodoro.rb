@@ -19,11 +19,11 @@ class Pomodoro
 
     1.upto(@length){|i|
       Kernel.sleep 60
-      notification.update "#{i.to_s} minute(s) have passed", "You have #{(@length-i).to_s} minutes left"
+      notification.update "#{i.to_s} minute(s) have passed", "You have #{(@length-i).to_s} minutes left", nil
       notification.show
     }
     
-    notification.update "Pomodoro finished", "Take a break"
+    notification.update "Pomodoro finished", "Take a break", nil
     notification.show
     @status = 'finished'
     Notify.uninit

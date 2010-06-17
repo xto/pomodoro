@@ -1,0 +1,14 @@
+#!/usr/bin/ruby
+#require 'autotest/inotify'
+
+module KDENotify
+  def self.knotify title, msg
+    system "kdialog --title \'#{title}\' --passivepopup " +
+      "  \'#{msg}\' 10"
+  end
+  
+  Autotest.add_hook :red do |at|
+    knotify "Tests failed", "#{at.files_to_test.size} tests failed"
+  end
+end
+
