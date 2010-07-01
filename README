@@ -1,6 +1,8 @@
 DISCLAIMER
 
 This is a work in progress. I'm working on this on weekends and evenings. It's not ready to use yet...
+I decided to let go of the GUI for now. Once it's working through a CLI, I'll start messing with GTK/QT...
+
 
 Pomodoro Timer
 
