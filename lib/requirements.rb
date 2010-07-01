@@ -1,0 +1,7 @@
+require 'rubygems'
+require 'dm-core'
+require 'dm-migrations'
+require 'dm-types'
+require 'RNotify'
+require 'task'
+require 'pomodoro'

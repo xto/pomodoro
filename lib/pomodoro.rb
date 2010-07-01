@@ -1,18 +1,21 @@
-require 'RNotify'
+require 'requirements'
 
 class Pomodoro
-  attr_reader :task;
-  attr_reader :length
-  attr_reader :status
+  include DataMapper::Resource
+  
+  belongs_to :task
+  property :id, Serial
+  property :length, Integer
+  property :status, Enum[:new, :in_progress, :done], :default => :new
+  
   def initialize length, task_name
     @length = length
-    @task_name = task_name
-    @status = 'new'
+    @task_name = task_name    
   end
   
 
   def start
-    @status = 'in progress'
+    @status = :in_progress
     Notify.init("Pomodoro")
     notification = Notify::Notification.new "Pomodoro started", "You now have "+@length.to_s+" minutes to complete \""+@task_name+"\"",nil,nil
     notification.show
@@ -25,7 +28,7 @@ class Pomodoro
     
     notification.update "Pomodoro finished", "Take a break", nil
     notification.show
-    @status = 'finished'
+    @status = :finished
     Notify.uninit
   end
 
