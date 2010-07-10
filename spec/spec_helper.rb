@@ -18,3 +18,7 @@ Spec::Runner.configure do |config|
     DataMapper.auto_migrate!
   end
 end
+
+def mock_datamapper_model model, stubs
+  mock(model, stubs.merge(:readonly? => false, :saved? => false))
+end

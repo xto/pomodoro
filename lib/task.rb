@@ -13,15 +13,13 @@ class Task
   property :status, Enum[ :new, :in_progress, :done ], :default => :new
   has n, :pomodoros
   
-  def initialize description, rank, estimate = 1
-    raise InvalidTaskError.new "No description has been provided" if description.empty?
-    @description = description
-    @rank = rank
-    @estimate = estimate
-    @pomodoro_list = Array.new
-
+  def initialize attributes
+    
+    raise InvalidTaskError.new "No description has been provided" if attributes[:description].empty?
+    attributes.merge! :status => :new if attributes[:status].empty? 
+    super attributes
     1.upto(@estimate) {
-      @pomodoro_list << Pomodoro.new(25, @description)
+      self.pomodoros.new 
     }
   end
 

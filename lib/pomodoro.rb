@@ -8,9 +8,10 @@ class Pomodoro
   property :length, Integer
   property :status, Enum[:new, :in_progress, :done], :default => :new
   
-  def initialize length, task_name
-    @length = length
-    @task_name = task_name    
+  def initialize attributes
+    raise ArgumentError.new "A Pomodoro must have a duration of at least 1 minute" if attributes[:length].empty? || attributes[:length] < 1
+    attributes.merge! :status => :new if attributes[:status].empty?
+    super attributes
   end
   
 

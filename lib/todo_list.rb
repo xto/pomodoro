@@ -3,24 +3,26 @@ require 'requirements'
 $:.unshift(File.dirname(__FILE__)+"/../")
 
 class ToDoList
-  attr_reader :tasks
+  include DataMapper::Resource
+  property :id, Serial
+  has n, :tasks
 
-  def initialize     
-    @tasks = Array.new 
-  end
-
-  def add_task description,estimate =1
-    raise InvalidTaskError.new "No description has been provided" if description.empty?
-    task = Task.new description,@tasks.size+1,estimate
-    @tasks.push task
+  def add_task attributes
+    raise InvalidTaskError.new "No description has been provided" if attributes[:description].empty?
+    task = self.tasks.new :description => attributes[:description], :rank => get_tasks_count, :estimate => attributes[:estimate]
+    task.save
   end
 
   def get_next_task
     @tasks.first
   end
 
+  def get_tasks_count
+    @tasks.size
+  end
+  
   def execute_task
-    task = @tasks.shift
+    task = get_next_task
     task.start
     task.set_as_done
   end
