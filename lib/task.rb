@@ -12,14 +12,15 @@ class Task
   property :estimate, Integer
   property :status, Enum[ :new, :in_progress, :done ], :default => :new
   has n, :pomodoros
+  belongs_to :to_do_list
   
   def initialize attributes
     
-    raise InvalidTaskError.new "No description has been provided" if attributes[:description].empty?
-    attributes.merge! :status => :new if attributes[:status].empty? 
+    raise InvalidTaskError.new "No description has been provided" if attributes[:description].nil?
+    attributes.merge! :status => :new if attributes[:status].nil? 
     super attributes
     1.upto(@estimate) {
-      self.pomodoros.new 
+      self.pomodoros.new :length => 25
     }
   end
 
@@ -36,11 +37,12 @@ class Task
   end
 
   def is_underestimated?
-    @pomodoro_list.size > @estimate
+    self.pomodoros.count > @estimate
   end
 
   def add_pomodoro
-    @pomodoro_list << Pomodoro.new(25,@name)
+    pomodoro = self.pomodoros.new :length => 25
+    pomodoro.save
   end
 
   def == task
@@ -49,7 +51,8 @@ class Task
   
   def start
     @status = :in_progress
-    @pomodoro_list.each do |pomodoro| 
+    self.save
+    self.pomodoros.each do |pomodoro| 
       pomodoro.start
     end
   end

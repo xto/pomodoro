@@ -29,7 +29,7 @@ describe 'Task' do
   
   describe "status" do
     before :each do
-      @task = Task.new "do something", 1
+      @task = Task.new :description =>"do something", :estimate => 1
       @task.status.should == :new
       
       @mock_notify = mock(Notify::Notification)
@@ -72,17 +72,17 @@ describe 'Task' do
     end
 
     it "should create a pomodoro by default" do
-      Pomodoro.should_receive(:new).once.with(25, "1 pomodoro task")
-      task1 = Task.new "1 pomodoro task",1
+      Pomodoro.should_receive(:new).once.with(:length => 25)
+      task1 = Task.new :description =>"1 pomodoro task", :estimate =>1 ,:rank => 1
     end
     
     it "should create a pomodoro by default" do
-      Pomodoro.should_receive(:new).exactly(20).times.with(25, "1 pomodoro task")
-      task1 = Task.new "1 pomodoro task",1,20
+      Pomodoro.should_receive(:new).exactly(20).times.with(:length => 25)
+      task1 = Task.new :description =>"1 pomodoro task", :estimate =>20 ,:rank => 1
     end
 
     it "should be flagged as underestimated when the number of pomodoros is greater than the estimate" do
-      task1 = Task.new "1 pomodoro task",1
+      task1 = Task.new :description =>"1 pomodoro task", :estimate =>1 ,:rank => 1      
       task1.add_pomodoro
       task1.is_underestimated?.should be_true
     end

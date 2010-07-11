@@ -8,8 +8,8 @@ class ToDoList
   has n, :tasks
 
   def add_task attributes
-    raise InvalidTaskError.new "No description has been provided" if attributes[:description].empty?
-    task = self.tasks.new :description => attributes[:description], :rank => get_tasks_count, :estimate => attributes[:estimate]
+    raise InvalidTaskError.new "No description has been provided" if attributes[:description].nil?
+    task = self.tasks.new :description => attributes[:description], :rank => get_tasks_count, :estimate => attributes[:estimate] || 1
     task.save
   end
 

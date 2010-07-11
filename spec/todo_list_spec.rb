@@ -21,8 +21,8 @@ describe 'ToDoList' do
 
   it "should keep track of all task it has created" do
     todo_list = ToDoList.new
-    todo_list.add_task "task1"
-    todo_list.add_task "task2"
+    todo_list.add_task :description => "task1"
+    todo_list.add_task :description => "task2"
     todo_list.find_task_by_description('task1').description.should == "task1"
     todo_list.find_task_by_description('task2').description.should == "task2"
   end
@@ -34,8 +34,8 @@ describe 'ToDoList' do
     @mock_notify.should_receive(:show).exactly(27).times
     
     todo_list = ToDoList.new
-    todo_list.add_task "task1"
-    todo_list.add_task "task2"
+    todo_list.add_task :description => "task1"
+    todo_list.add_task :description => "task2"
     todo_list.get_next_task.rank.should == 1
     todo_list.execute_task
     todo_list.get_next_task.rank.should == 2
@@ -44,8 +44,8 @@ describe 'ToDoList' do
   
   it "should remove unwanted tasks" do
     todo_list = ToDoList.new
-    todo_list.add_task "task1"
-    todo_list.add_task "task2"
+    todo_list.add_task :description => "task1"
+    todo_list.add_task :description => "task2"
     todo_list.remove_task "task1"
     
     todo_list.tasks.size.should == 1

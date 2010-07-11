@@ -9,8 +9,8 @@ class Pomodoro
   property :status, Enum[:new, :in_progress, :done], :default => :new
   
   def initialize attributes
-    raise ArgumentError.new "A Pomodoro must have a duration of at least 1 minute" if attributes[:length].empty? || attributes[:length] < 1
-    attributes.merge! :status => :new if attributes[:status].empty?
+    raise ArgumentError.new "A Pomodoro must have a duration of at least 1 minute" if attributes[:length].nil? || attributes[:length] < 1
+    attributes.merge! :status => :new if attributes[:status].nil?
     super attributes
   end
   
@@ -18,7 +18,7 @@ class Pomodoro
   def start
     @status = :in_progress
     Notify.init("Pomodoro")
-    notification = Notify::Notification.new "Pomodoro started", "You now have "+@length.to_s+" minutes to complete \""+@task_name+"\"",nil,nil
+    notification = Notify::Notification.new "Pomodoro started", "You now have "+@length.to_s+" minutes to complete \""+self.task.description+"\"",nil,nil
     notification.show
 
     1.upto(@length){|i|
