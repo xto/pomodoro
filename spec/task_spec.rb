@@ -29,7 +29,9 @@ describe 'Task' do
   
   describe "status" do
     before :each do
-      @task = Task.new :description =>"do something", :estimate => 1
+      todolist = ToDoList.new
+      todolist.save
+      @task = todolist.tasks.new :description =>"do something", :estimate => 1
       @task.status.should == :new
       
       @mock_notify = mock(Notify::Notification)
@@ -55,6 +57,11 @@ describe 'Task' do
   end
   
   describe "creation" do 
+    before :each do
+      @todolist = ToDoList.new
+      @todolist.save
+    end
+    
     it "should have a description" do
       task = Task.new "writing first test", 1
       task.description.should == "writing first test"
@@ -65,24 +72,27 @@ describe 'Task' do
     end
 
     it "should assign the last rank (end of the queue) when no rank is provided" do
-      task1 = Task.new "test task1",1
-      task2 = Task.new "test task2",2
+      task1 = @todolist.tasks.new :description => "test task1", :estimate => 1
+      task2 = @todolist.tasks.new :description => "test task2", :estimate => 2
       task1.rank.should == 1
       task2.rank.should == 2
     end
 
     it "should create a pomodoro by default" do
-      Pomodoro.should_receive(:new).once.with(:length => 25)
-      task1 = Task.new :description =>"1 pomodoro task", :estimate =>1 ,:rank => 1
+      task1 = @todolist.tasks.new :description =>"1 pomodoro task", :estimate =>1 ,:rank => 1
+      task1.save
+      task1.pomodoros.count.should == 1
     end
     
-    it "should create a pomodoro by default" do
-      Pomodoro.should_receive(:new).exactly(20).times.with(:length => 25)
-      task1 = Task.new :description =>"1 pomodoro task", :estimate =>20 ,:rank => 1
+    it "should create as many pomodoros as the estimate" do
+      task1 = @todolist.tasks.new :description =>"1 pomodoro task", :estimate =>20 ,:rank => 1
+      task1.save
+      task1.pomodoros.count.should == 20
     end
 
     it "should be flagged as underestimated when the number of pomodoros is greater than the estimate" do
-      task1 = Task.new :description =>"1 pomodoro task", :estimate =>1 ,:rank => 1      
+      task1 = @todolist.tasks.new :description =>"1 pomodoro task", :estimate =>1 ,:rank => 1      
+      task1.save
       task1.add_pomodoro
       task1.is_underestimated?.should be_true
     end

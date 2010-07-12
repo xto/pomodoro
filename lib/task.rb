@@ -17,7 +17,9 @@ class Task
   def initialize attributes
     
     raise InvalidTaskError.new "No description has been provided" if attributes[:description].nil?
-    attributes.merge! :status => :new if attributes[:status].nil? 
+    attributes.merge! :status => :new if attributes[:status].nil?
+    attributes.merge! :rank => self.to_do_list.count+1 if attributes[:rank].nil?
+    
     super attributes
     1.upto(@estimate) {
       self.pomodoros.new :length => 25
@@ -37,12 +39,13 @@ class Task
   end
 
   def is_underestimated?
-    self.pomodoros.count > @estimate
+    self.pomodoros.count > self.estimate
   end
 
   def add_pomodoro
     pomodoro = self.pomodoros.new :length => 25
     pomodoro.save
+    self.save
   end
 
   def == task
@@ -58,6 +61,8 @@ class Task
   end
   
   def set_as_done
-    @status = :done
+    self.status = :done
+    self.save
+    #raise RuntimeError.new unless self.status == :done
   end
 end
