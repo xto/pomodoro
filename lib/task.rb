@@ -63,6 +63,5 @@ class Task
   def set_as_done
     self.status = :done
     self.save
-    #raise RuntimeError.new unless self.status == :done
   end
 end
