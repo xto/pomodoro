@@ -17,8 +17,9 @@ class Task
   def initialize attributes
     
     raise InvalidTaskError.new "No description has been provided" if attributes[:description].nil?
+    raise InvalidTaskError.new "No rank has been provided" if attributes[:rank].nil?
+    
     attributes.merge! :status => :new if attributes[:status].nil?
-    attributes.merge! :rank => self.to_do_list.count+1 if attributes[:rank].nil?
     
     super attributes
     1.upto(@estimate) {
